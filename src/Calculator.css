@@ -1,0 +1,187 @@
+.calc-container {
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.calc-header {
+  font-size: 36px;
+  color: #2c3e35;
+  margin-bottom: 10px;
+}
+
+.calc-subheader {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.calc-layout {
+  display: flex;
+  gap: 40px;
+  text-align: left;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid #eae6df;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.calc-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Переключатель пола */
+.form-group-gender {
+  display: flex;
+  gap: 15px;
+}
+
+.gender-label {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #eae6df;
+  border-radius: 25px;
+  cursor: pointer;
+  background-color: #fbf9f6;
+  font-weight: 600;
+  color: #555;
+  transition: all 0.3s ease;
+}
+
+.gender-label input {
+  display: none; /* Скрываем стандартный радио-кружок */
+}
+
+.gender-label.active {
+  background-color: #4a6b5d;
+  color: white;
+  border-color: #4a6b5d;
+}
+
+/* Сетка полей ввода */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e35;
+}
+
+.input-field input, .input-field select {
+  padding: 12px 15px;
+  border: 1px solid #eae6df;
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: #fbf9f6;
+  outline: none;
+}
+
+.input-field input:focus, .input-field select:focus {
+  border-color: #4a6b5d;
+}
+
+.calc-btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Правая колонка с результатами */
+.calc-results {
+  flex: 1;
+  display: flex;
+  background-color: #fbf9f6;
+  border-radius: 15px;
+  border: 1px solid #eae6df;
+  padding: 30px;
+  min-height: 300px;
+}
+
+.results-placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #888;
+  gap: 15px;
+}
+
+.placeholder-icon {
+  font-size: 50px;
+}
+
+/* Стили карточек результатов */
+.results-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+
+.result-box {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #eae6df;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.result-title {
+  font-size: 14px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.result-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #2c3e35;
+}
+
+.result-value small {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.result-status {
+  font-weight: 600;
+  font-size: 16px;
+  color: #4a6b5d;
+}
+
+.result-tip {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+  margin-top: 5px;
+}
+
+/* Адаптивность под мобилки */
+@media screen and (max-width: 850px) {
+  .calc-layout {
+    flex-direction: column;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

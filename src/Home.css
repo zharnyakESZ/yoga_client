@@ -1,0 +1,361 @@
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero-title {
+  font-size: 48px;
+  color: #2c3e35;
+  margin-bottom: 20px;
+}
+
+.hero-subtitle {
+  font-size: 20px;
+  color: #666;
+  max-width: 600px;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.btn-primary {
+  padding: 15px 35px;
+  font-size: 16px;
+  background-color: #4a6b5d;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #3b5449;
+  transform: translateY(-2px);
+}
+/* Секция направлений */
+.directions-section {
+  padding: 60px 40px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 32px;
+  color: #2c3e35;
+  margin-bottom: 40px;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.direction-card {
+  background-color: #fbf9f6;
+  padding: 30px 20px;
+  border-radius: 15px;
+  border: 1px solid #eae6df;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.direction-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(74, 107, 93, 0.1);
+}
+
+.card-icon {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.card-title {
+  font-size: 22px;
+  color: #2c3e35;
+  margin-bottom: 12px;
+}
+
+.card-text {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
+}
+/* Стили для модального окна */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Затемнение заднего фона */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #999;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-title {
+  font-size: 24px;
+  color: #2c3e35;
+  margin-bottom: 25px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-form input {
+  padding: 12px 20px;
+  border: 1px solid #eae6df;
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+  background-color: #fbf9f6;
+}
+
+.modal-form input:focus {
+  border-color: #4a6b5d;
+}
+/* Секция рецептов */
+.recipes-section {
+  padding: 60px 40px;
+  background-color: #fbf9f6;
+  text-align: center;
+  overflow: hidden;
+}
+
+.carousel-wrapper {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  gap: 20px; /* Отступы между карточками */
+}
+
+/* Карточка рецепта новая */
+.recipe-card-new {
+  min-width: calc(33.333% - 14px); /* Показываем ровно 3 карточки в ряд на ПК */
+  background: #ffffff;
+  border-radius: 15px;
+  border: 1px solid #eae6df;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.recipe-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* Картинка заполняет блок без искажений */
+}
+
+.recipe-info-block {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.recipe-title-new {
+  font-size: 20px;
+  color: #2c3e35;
+  margin-bottom: 10px;
+}
+
+.recipe-text-new {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Маленькая аккуратная кнопка для карточки */
+.btn-secondary {
+  padding: 10px 20px;
+  background-color: transparent;
+  color: #4a6b5d;
+  border: 2px solid #4a6b5d;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+}
+
+.btn-secondary:hover {
+  background-color: #4a6b5d;
+  color: white;
+}
+
+/* Стили модального окна рецепта */
+.recipe-modal {
+  max-width: 500px !important;
+  padding: 25px !important;
+  max-height: 85vh;          /* Окно не займет больше 85% высоты экрана */
+  overflow-y: auto;          /* Если текст не влезает, появится аккуратная прокрутка */
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-recipe-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.modal-recipe-fulltext {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  text-align: left;
+  margin-top: 15px;
+  background-color: #fbf9f6;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+/* Адаптивность слайдера под мобильные */
+@media screen and (max-width: 900px) {
+  .recipe-card-new {
+    min-width: 100%; /* На смартфонах карточка занимает 100% ширины */
+  }
+  .carousel-track {
+    gap: 0px;
+  }
+}
+.modal-recipe-body {
+  text-align: left;
+  margin-top: 20px;
+  flex-grow: 1; /* Позволяет текстовому блоку занимать всё свободное место */
+}
+
+/* На всякий случай фиксируем пропорции картинки, чтобы её не сплющивало */
+.modal-recipe-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0; /* Запрещает картинке сжиматься, когда текста очень много */
+}
+/* Секция FAQ (Аккордеон) */
+.faq-section {
+  padding: 60px 20px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.accordion-container {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.accordion-item {
+  background-color: #fbf9f6;
+  border: 1px solid #eae6df;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.accordion-item:hover {
+  box-shadow: 0 4px 12px rgba(74, 107, 93, 0.08);
+}
+
+/* Шапка аккордеона (Вопрос) */
+.accordion-header {
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.accordion-question {
+  font-size: 18px;
+  color: #2c3e35;
+  font-weight: 600;
+}
+
+.accordion-icon {
+  font-size: 18px;
+  color: #4a6b5d;
+  transition: transform 0.3s ease-in-out; /* Плавный поворот стрелочки */
+}
+
+/* Если вкладка открыта — поворачиваем стрелочку вверх */
+.accordion-item.active .accordion-icon {
+  transform: rotate(180px);
+}
+
+/* Контент аккордеона (Ответ) */
+.accordion-collapse {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out; /* Плавная анимация раскрытия */
+}
+
+/* Когда активен — даем максимальную высоту для отображения текста */
+.accordion-item.active .accordion-collapse {
+  max-height: 200px; /* Достаточно для пары абзацев текста */
+}
+
+.accordion-body {
+  padding: 0 25px 20px 25px;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+}

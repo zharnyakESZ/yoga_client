@@ -1,0 +1,238 @@
+.asanas-container {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.asanas-header {
+    font-size: 36px;
+    color: #2c3e35;
+    margin-bottom: 10px;
+}
+
+.asanas-subheader {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+/* Стили кнопок переключения */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    padding: 10px 25px;
+    border: 1px solid #4a6b5d;
+    background-color: transparent;
+    color: #4a6b5d;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background-color: #4a6b5d;
+    color: white;
+}
+
+/* Сетка карточек */
+.asanas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Карточка асаны — жестко контролирует свои размеры */
+.asana-card-item {
+    background: #ffffff;
+    border-radius: 15px;
+    border: 1px solid #eae6df;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 480px;
+    /* Фиксированная высота карточки, чтобы они все были одинаковыми */
+    overflow: hidden;
+    /* Обрезает всё, что вылезает за пределы скруглений */
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.asana-card-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(74, 107, 93, 0.08);
+}
+
+.asana-emoji-box {
+    font-size: 44px;
+    margin-bottom: 15px;
+}
+
+.asana-title-text {
+    font-size: 22px;
+    color: #2c3e35;
+    margin-bottom: 4px;
+}
+
+.asana-translate-text {
+    font-size: 14px;
+    color: #888;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.asana-benefit-text {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 40px;
+}
+
+/* Ярлыки сложности */
+.asana-level-badge {
+  position: absolute;
+  bottom: 15px; /* Жестко фиксируем в 15 пикселях от нижнего края карточки */
+  left: 50%;
+  transform: translateX(-50%); /* Центрирование по горизонтали */
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  background: #fbf9f6;
+  padding: 5px 16px;
+  border-radius: 20px;
+  border: 1px solid #eae6df;
+  white-space: nowrap;
+}
+
+/* Контейнер для картинки — жестко 50% от высоты карточки */
+.asana-img-wrapper {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background-color: #fbf9f6;
+    /* Заглушка, пока картинка грузится */
+}
+
+/* Сама картинка — заполняет блок и не деформирует карточку */
+.asana-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Обрезает фото по краям, сохраняя пропорции, а не сжимает его */
+    display: block;
+}
+
+/* Блок с текстом под картинкой */
+.asana-info-block {
+    padding: 20px 20px 65px 20px;
+    /* Увеличили нижний отступ (65px), чтобы текст не налезал на ярлык "Легко" */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    position: relative;
+    /* Чтобы ярлык уровня сложности позиционировался относительно этого блока */
+}
+/* Стили для ссылки-кнопки "Читать далее..." */
+.asana-read-more {
+  background: none;
+  border: none;
+  color: #4a6b5d; /* Наш фирменный зеленый йога-цвет */
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.asana-read-more:hover {
+  color: #2c3e35;
+  text-decoration: underline; /* Подчеркивание при наведении, как у классических ссылок */
+}
+/* Полностью изолированные стили для модального окна асан */
+.asana-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.asana-modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+  position: relative;
+  width: 90%;
+  max-width: 600px; /* Ограничиваем максимальную ширину окна */
+  max-height: 85vh; /* Ограничиваем высоту до 85% от экрана */
+  overflow-y: auto; /* Включаем внутреннюю прокрутку текста */
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.asana-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #999;
+  z-index: 10;
+}
+
+.asana-modal-close:hover {
+  color: #333;
+}
+/* Жёсткий контроль размеров изображения инфографики */
+.modal-asana-img-container {
+  width: 100%;
+  height: 300px; /* Фиксируем высоту блока под картинку */
+  background-color: #fbf9f6;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #eae6df;
+}
+
+.modal-asana-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Картинка полностью подстраивается под размеры контейнера, не вылезая за его края */
+}
+
+.asana-modal-title {
+  font-size: 26px;
+  color: #2c3e35;
+  margin-top: 20px;
+  margin-bottom: 2px;
+  text-align: center;
+}
+
+.asana-modal-body {
+  text-align: left;
+  margin-top: 15px;
+}
