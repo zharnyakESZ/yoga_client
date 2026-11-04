@@ -1,109 +1,57 @@
-import { useState } from 'react'
-import '../Home.css'
-import backgroundImage from '../assets/banner.png'
+import React, { useState, useEffect } from 'react';
+import '../Home.css';
+import backgroundImage from '../assets/banner.png';
 
-function Home() {
+function Home({ user }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [name, setName] = useState('');
+  const [name, setName] = useState(user || '');
   const [phone, setPhone] = useState('');
-
-  // 1. Состояния для слайдера и модального окна рецептов
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [activeRecipe, setActiveRecipe] = useState(null); // Хранит рецепт, который открыт в поп-апе
+  const [activeRecipe, setActiveRecipe] = useState(null);
+  const [activeFaqIndex, setActiveFaqIndex] = useState(null);
 
-  // База данных из 6 рецептов йога-питания с картинками
-  const recipes = [
-    {
-      id: 1,
-      image: "smusi.png",
-      title: "Зелёный смузи для энергии",
-      shortText: "Идеальный детокс-напиток для восполнения сил после утренней практики йоги.",
-      ingredients: [
-        "1/2 спелого авокадо",
-        "Большая горсть свежего шпината",
-        "1 спелый банан",
-        "200 мл охлажденной кокосовой воды"
-      ],
-      instructions: "Тщательно промойте зелень шпината. Очистите банан и авокадо от кожуры. Поместите все ингредиенты в чашу блендера и взбивайте на высокой скорости 1-2 минуты до однородной, нежной кремовой консистенции. Рекомендуется пить сразу после приготовления."
-    },
-    {
-      id: 2,
-      image: "ovsyanka.png",
-      title: "Пряная овсянка с яблоком",
-      shortText: "Согревающий и лёгкий завтрак с корицей и кардамоном для баланса энергии.",
-      ingredients: [
-        "50г овсяных хлопьев",
-        "200 мл миндального молока",
-        "1 яблоко",
-        "щепотка корицы",
-        "1 ч.л. мёда"
-      ],
-      instructions: "Сварите овсянку на молоке на медленном огне. Яблоко нарежьте кубиками и припустите на сковороде с корицей и каплей воды 3 минуты. Выложите яблоки на кашу, украсьте орехами и полейте мёдом."
-    },
-    {
-      id: 3,
-      image: "kinoa.png",
-      title: "Салат с киноа и тыквой",
-      shortText: "Питательный и лёгкий ужин, который не перегружает пищеварительную систему.",
-      ingredients: [
-        "60г киноа",
-        "100г тыквы",
-        "горсть руколы",
-        "оливковое масло",
-        "лимонный сок"
-      ],
-      instructions: "Отварите киноа. Тыкву нарежьте кубиками, сбрызните маслом и запекайте в духовке при 180°C около 20 минут. Смешайте в глубокой тарелке киноа, тыкву и руколу. Заправьте лимонным соком и оливковым маслом."
-    },
-    {
-      id: 4,
-      image: "byddaboyl.png",
-      title: "Будда-боул с нутом",
-      shortText: "Сбалансированное вегетарианское блюдо, богатое растительным белком и клетчаткой.",
-      ingredients: [
-        "150г нут",
-        "200г киноа ",
-        "150 г огурец",
-        "100 г шпинат",
-        "10шт Помидоры черри",
-        "1 шт Авокадо",
-        "пару веточек Петрушка",
-        "2 ст.л. Масло оливковое",
-        "2 ч.л. Уксус красный винный",
-        "Соль - по желанию",
-        "Кунжут - при наличии",
-        "Паприка(по желанию) - щепотка"
-      ],
-      instructions: "Переложите готовый нут в глубокую миску, влейте немного масла, чуть посолите. При желании, для красивого цвета можно всыпать щепотку паприки.Отрежьте стебли у шпината, редис нарежьте кружочками. Выложите по кругу шпинат, редис и киноа. Авокадо очистите от кожуры и косточки, нарежьте тонкими ломтиками. Помидоры черри разрежьте пополам, огурец - кружочками. Также выложите овощи по кругу тарелки. На шпинат положите нут.Слегка полейте овощи и киноа оливковым маслом, винным уксусом (или лимонным соком), можно чуть посолить по вкусу, посыпьте листиками петрушки. Для придания блюду орехового вкуса некоторые овощи можно посыпать обжаренным кунжутом."
-    },
-    {
-      id: 5,
-      image: "hehevisa.png",
-      title: "Чечевичный суп-пюре",
-      shortText: "Традиционный согревающий индийский дал с ароматными специями.",
-      ingredients: [
-        " 150г стакан красной чечевицы",
-        "1 томат",
-        "имбирь",
-        "куркума",
-        "кумин"
-      ],
-      instructions: "Обжарьте в кастрюле тертый имбирь и специи в течение 30 секунд. Добавьте промытую чечевицу и нарезанный томат, залейте водой. Варите 20 минут до мягкости чечевицы, затем измельчите суп блендером до состояния пюре."
-    },
-    {
-      id: 6,
-      image: "hia.png",
-      title: "Чиа-пудинг на кокосовом молоке",
-      shortText: "Полезный десерт без сахара, богатый жирными кислотами Омега-3.",
-      ingredients: [
-        "3 ст.л. семян чиа",
-        "150мл кокосового молока",
-        "ягоды для украшения"
-      ],
-      instructions: "Залейте семена чиа кокосовым молоком, тщательно перемешайте, чтобы не было комочков. Оставьте в холодильнике минимум на 4 часа (лучше на ночь). Перед подачей украсьте пюре из свежих ягод или кусочками манго."
+  const handlePhoneChange = (e) => {
+    let input = e.target.value.replace(/\D/g, '');
+    if (input.startsWith('7') || input.startsWith('8')) {
+      input = input.substring(1);
     }
+    input = input.substring(0, 10);
+
+    let formattedInput = '';
+    if (input.length > 0) {
+      formattedInput = '+7 (' + input.substring(0, 3);
+    }
+    if (input.length >= 4) {
+      formattedInput += ') ' + input.substring(3, 6);
+    }
+    if (input.length >= 7) {
+      formattedInput += '-' + input.substring(6, 8);
+    }
+    if (input.length >= 9) {
+      formattedInput += '-' + input.substring(8, 10);
+    }
+    setPhone(formattedInput);
+  };
+
+  const recipes = [
+    { id: 1, title: 'Зелёный смузи для энергии', shortText: 'Идеальный детокс-напиток для восполнения сил после утренней практики йоги.', ingredients: ['1/2 спелого авокадо', 'Большая горсть свежего шпината', '1 спелый банан', '200 мл охлажденной кокосовой воды'], image: 'smusi.png', instructions: 'Тщательно промойте зелень шпината. Очистите банан и авокадо от кожуры. Поместите все ингредиенты в чашу блендера и взбивайте на высокой скорости 1-2 минуты до однородной, нежной кремовой консистенции.' },
+    { id: 2, title: 'Пряная овсянка с яблоком', shortText: 'Согревающий и лёгкий завтрак с корицей и кардамоном для баланса энергии.', ingredients: ['50г овсяных хлопьев', '200 мл миндального молока', '1 яблоко', 'щепотка корицы', '1 ч.л. мёда'], image: 'ovsyanka.png', instructions: 'Сварите овсянку на молоке на медленном огне. Яблоко нарежьте кубиками и припустите на сковороде с корицей и каплей воды 3 минуты. Выложите яблоки на кашу.' },
+    { id: 3, title: 'Салат с киноа и тыквой', shortText: 'Питательный и лёгкий ужин, который не перегружает пищеварительную систему.', ingredients: ['60г киноа', '100г тыквы', 'горсть руколы', 'оливковое масло', 'лимонный сок'], image: 'kinoa.png', instructions: 'Отварите киноа. Тыкву нарежьте кубиками, сбрызните маслом и запекайте в духовке при 180°C около 20 минут. Смешайте в глубокой тарелке киноа, тыкву и руколу.' },
+    { id: 4, title: 'Будда-боул с нутом', shortText: 'Сбалансированное вегетарианское блюдо, богатое растительным белком и клетчаткой.', ingredients: ['150г нута', '200г готового киноа', '100г свежего шпината', '1 шт Авокадо'], image: 'byddaboyl.png', instructions: 'Выложите по кругу глубокой тарелки готовое киноа, листья шпината, половинки черри и ломтики авокадо. Нут предварительно прогрейте или обжарьте со специями.' },
+    { id: 5, title: 'Чечевичный суп-пюре', shortText: 'Традиционный согревающий индийский дал с ароматными специями.', ingredients: ['150г красной чечевицы', '1 крупный томат', 'кусочек свежего имбиря'], image: 'hehevisa.png', instructions: 'Обжарьте в кастрюле тертый имбирь и специи в течение 30 секунд. Добавьте чечевицу и томат, залейте водой. Варите 20 минут, затем измельчите блендером.' },
+    { id: 6, title: 'Чиа-пудинг на кокосовом молоке', shortText: 'Полезный десерт без сахара, богатый жирными кислотами Омега-3.', ingredients: ['3 ст.л. семян чиа', '150 мл кокосового молока', 'Свежие ягоды'], image: 'hia.png', instructions: 'Залейте семена чиа кокосовым молоком, тщательно перемешайте. Оставьте в холодильнике минимум на 4 часа. Перед подачей украсьте свежими ягодами.' },
   ];
 
-  // Логика слайдера (показываем по 3 карточки на ПК, по 1 на мобильных)
+  const faqData = [
+    { q: 'Нужна ли физическая подготовка для первых занятий?', a: 'Абсолютно нет! Наши практики Хатха-йоги и медитации рассчитаны в том числе на новичков.' },
+    { q: 'Что необходимо взять с собой на практику?', a: 'Мы рекомендуем взять удобную спортивную одежду, которая не стесняет движений. Все коврики и пледы предоставляются бесплатно.' },
+    { q: 'Как часто нужно заниматься, чтобы увидеть результат?', a: 'Для стабильного улучшения гибкости и снижения стресса мы рекомендуем посещать занятия 2–3 раза в неделю.' },
+  ];
+
+  useEffect(() => {
+    if (isOpen) setName(user || '');
+  }, [isOpen, user]);
+
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev >= recipes.length - 3 ? 0 : prev + 1));
   };
@@ -112,169 +60,259 @@ function Home() {
     setCurrentSlide((prev) => (prev === 0 ? recipes.length - 3 : prev - 1));
   };
 
-  const handleSubmit = (e) => {
+  const toggleFaq = (index) => {
+    setActiveFaqIndex(activeFaqIndex === index ? null : index);
+  };
+
+  const handleBookingSubmit = (e) => {
     e.preventDefault();
     alert(`Спасибо за заявку, ${name}! Мы свяжемся с вами по телефону: ${phone}`);
     setIsOpen(false);
-    setName('');
     setPhone('');
   };
 
   return (
-    <div>
-      {/* Баннер */}
-      <div className="hero-section" style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url(${backgroundImage})` }}>
-        <h1 className="hero-title">Студия Йоги «Гармония»</h1>
-        <p className="hero-subtitle">Пространство, где тело обретает силу, а разум — абсолютное спокойствие.</p>
-        <button className="btn-primary" onClick={() => setIsOpen(true)}>Записаться на практику</button>
+    <div style={{ backgroundColor: '#fbf9f6', position: 'relative' }}>
+      
+      {/* ИНЖЕКЦИЯ ВСЕХ СТИЛЕЙ АНИМАЦИИ (ПРИ ЗАГРУЗКЕ И ПРИ СКРОЛЛЕ) */}
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes revealOnScroll {
+          from { opacity: 0; transform: translateY(50px) scale(0.96); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-fade-up {
+          animation: fadeInUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        .scroll-animated-section {
+          view-timeline-name: --sectionTimeline;
+          view-timeline-axis: block;
+          animation-name: revealOnScroll;
+          animation-fill-mode: both;
+          animation-timeline: --sectionTimeline;
+          animation-range: entry 10% cover 40%;
+        }
+        .direction-card {
+          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        }
+        .direction-card:hover {
+          transform: translateY(-8px) !important;
+          box-shadow: 0 12px 25px rgba(74, 107, 93, 0.08) !important;
+        }
+      `}</style>
+
+      {/* 1. ФИКСИРОВАННЫЙ ГЛАВНЫЙ БАННЕР */}
+      <div
+        className="hero-section"
+        style={{
+          position: 'sticky',
+          top: '60px',
+          left: 0,
+          width: '100%',
+          height: '65vh',
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center',
+          padding: '0 20px',
+          boxSizing: 'border-box',
+          zIndex: 1,
+        }}
+      >
+        <div className="animate-fade-up" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <h1 className="hero-title" style={{ color: '#2c3e35', fontSize: '46px', fontWeight: '700', margin: 0 }}>
+            Студия Йоги «Цветочная практика»
+          </h1>
+          <p className="hero-subtitle" style={{ color: '#3b4a41', fontSize: '18px', margin: '20px 0 30px 0', fontWeight: '500', maxWidth: '600px' }}>
+            Пространство, где body обретает силу, а разум — абсолютное спокойствие.
+          </p>
+          <button
+            className="btn-primary"
+            onClick={() => setIsOpen(true)}
+            style={{ background: '#4a6b5d', color: 'white', border: 'none', padding: '15px 35px', borderRadius: '25px', fontSize: '16px', fontWeight: '600', cursor: 'pointer', boxShadow: '0 4px 15px rgba(74, 107, 93, 0.2)', transition: 'all 0.2s' }}
+            onMouseEnter={(e) => { e.target.style.transform = 'scale(1.03)'; e.target.style.background = '#3d594d'; }}
+            onMouseLeave={(e) => { e.target.style.transform = 'scale(1)'; e.target.style.background = '#4a6b5d'; }}
+          >
+            Записаться на практику
+          </button>
+        </div>
       </div>
 
-      {/* Направления */}
-      <section className="directions-section">
-        <h2 className="section-title">Наши направления</h2>
-        <div className="cards-container">
-          <div className="direction-card">
-            <div className="card-icon">🌿</div>
-            <h3 className="card-title">Хатха-йога</h3>
-            <p className="card-text">Классическая практика, направленная на баланс силы и гибкости.</p>
+      {/* 2. НАЕЗЖАЮЩАЯ СКОРЛУПКА С АНИМИРОВАННЫМИ СЕКЦИЯМИ ВНУТРИ */}
+      <div 
+        className="scroll-shell-content"
+        style={{ 
+          position: 'relative', 
+          zIndex: 10,
+          background: 'rgba(251, 249, 246, 0.97)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderTopLeftRadius: '45px',
+          borderTopRightRadius: '45px', 
+          boxShadow: '0 -15px 35px rgba(44, 62, 53, 0.06)',
+          marginTop: '-30px',
+          paddingTop: '40px',
+          paddingBottom: '60px'
+        }}
+      >
+        {/* АНИМИРОВАННАЯ СЕКЦИЯ НАПРАВЛЕНИЙ */}
+        <section className="directions-section scroll-animated-section" style={{ padding: '40px 20px', textAlign: 'center' }}>
+          <h2 className="section-title" style={{ color: '#2c3e35', fontSize: '32px', fontWeight: '700', marginBottom: '10px' }}>
+            Наши направления
+          </h2>
+          <p style={{ color: '#888', fontSize: '15px', marginBottom: '40px' }}>Выберите практику, которая откликается вашему внутреннему состоянию</p>
+
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap', maxWidth: '1200px', margin: '0 auto' }}>
+            
+            <div className="direction-card" style={{ background: 'white', borderRadius: '24px', width: '300px', padding: '35px 25px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #eae6df', boxShadow: '0 4px 20px rgba(44, 62, 53, 0.02)', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '5px', background: '#81b29a' }}></div>
+              <div style={{ fontSize: '40px', marginBottom: '20px' }}>🌿</div>
+              <h3 style={{ color: '#2c3e35', fontSize: '20px', fontWeight: '700', margin: '0 0 12px 0' }}>Хатха-йога</h3>
+            <p style={{ color: '#666', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
+              Классическая практика, направленная на баланс силы и гибкости вашего тела.
+            </p>
           </div>
-          <div className="direction-card">
-            <div className="card-icon">✨</div>
-            <h3 className="card-title">Кундалини</h3>
-            <p className="card-text">Интенсивная работа с внутренней энергией через дыхание и мантры.</p>
+
+          {/* Карточка 2: Кундалини */}
+          <div className="direction-card" style={{ background: 'white', borderRadius: '24px', width: '300px', padding: '35px 25px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #eae6df', boxShadow: '0 4px 20px rgba(44, 62, 53, 0.02)', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '5px', background: '#f4a261' }}></div>
+            <div style={{ fontSize: '40px', marginBottom: '20px' }}>✨</div>
+            <h3 style={{ color: '#2c3e35', fontSize: '20px', fontWeight: '700', margin: '0 0 12px 0' }}>Кундалини</h3>
+            <p style={{ color: '#666', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>Интенсивная работа с внутренней энергией через дыхательные крийи и мантры.</p>
           </div>
-          <div className="direction-card">
-            <div className="card-icon">🧘‍♀️</div>
-            <h3 className="card-title">Медитация</h3>
-            <p className="card-text">Практики глубокого расслабления и очищения разума от стресса.</p>
+
+          {/* Карточка 3: Медитация */}
+          <div className="direction-card" style={{ background: 'white', borderRadius: '24px', width: '300px', padding: '35px 25px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid #eae6df', boxShadow: '0 4px 20px rgba(44, 62, 53, 0.02)', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '5px', background: '#e76f51' }}></div>
+            <div style={{ fontSize: '40px', marginBottom: '20px' }}>🧘‍♀️</div>
+            <h3 style={{ color: '#2c3e35', fontSize: '20px', fontWeight: '700', margin: '0 0 12px 0' }}>Медитация</h3>
+            <p style={{ color: '#666', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>Практики глубокого расслабления, осознанности и очищения разума от стресса.</p>
           </div>
+
         </div>
       </section>
 
-      {/* СЕКЦИЯ СЛАЙДЕРА РЕЦЕПТОВ С КАРТИНКАМИ */}
-      <section className="recipes-section">
-        <h2 className="section-title">Рецепты (Йога-питание)</h2>
+      {/* АНИМИРОВАННАЯ СЕКЦИЯ РЕЦЕПТОВ */}
+      <section className="recipes-section scroll-animated-section" style={{ padding: '60px 20px', textAlign: 'center' }}>
+        <h2 className="section-title" style={{ marginBottom: '30px', color: '#2c3e35', fontWeight: '700', fontSize: '32px' }}>
+          Рецепты (Йога-питание)
+        </h2>
 
-        <div className="carousel-wrapper">
-          <button className="carousel-btn prev" onClick={prevSlide}>‹</button>
-
-          <div className="carousel-container">
-            {/* Расчет сдвига: на ПК карточка занимает примерно 33.33% ширины контейнера */}
-            <div className="carousel-track" style={{ transform: `translateX(-${currentSlide * (100 / 3)}%)` }}>
-              {recipes.map((recipe) => (
-                <div className="recipe-card-new" key={recipe.id}>
-                  <img src={recipe.image} alt={recipe.title} className="recipe-img" />
-                  <div className="recipe-info-block">
-                    <h3 className="recipe-title-new">{recipe.title}</h3>
-                    <p className="recipe-text-new">{recipe.shortText}</p>
-                    <button className="btn-secondary" onClick={() => setActiveRecipe(recipe)}>
-                      Посмотреть рецепт
-                    </button>
-                  </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
+          <button type="button" onClick={prevSlide} style={{ background: '#4a6b5d', color: 'white', border: 'none', width: '40px', height: '40px', borderRadius: '50%', cursor: 'pointer', fontWeight: 'bold' }}>
+            &lt;
+          </button>
+          
+          <div style={{ display: 'flex', gap: '20px', overflow: 'hidden', width: '960px' }}>
+            {recipes.slice(currentSlide, currentSlide + 3).map((recipe) => (
+              <div key={recipe.id} style={{ background: 'white', border: '1px solid #eae6df', borderRadius: '20px', width: '300px', padding: '0 0 20px 0', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', textAlign: 'center', overflow: 'hidden' }}>
+                <div style={{ width: '100%', height: '160px', background: '#f7f5f0', overflow: 'hidden', marginBottom: '15px' }}>
+                  {recipe.image ? (
+                    <img src={`/${recipe.image}`} alt={recipe.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', fontSize: '40px' }}>🍲</div>
+                  )}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <button className="carousel-btn next" onClick={nextSlide}>›</button>
-        </div>
-      </section>
-      {/* НАЧАЛО НОВОЙ СЕКЦИИ: АККОРДЕОН (FAQ) */}
-      <section className="faq-section">
-        <h2 className="section-title">Часто задаваемые вопросы</h2>
-
-        <div className="accordion-container">
-          {[
-            {
-              q: "Нужна ли физическая подготовка для первых занятий?",
-              a: "Абсолютно нет! Наши практики Хатха-йоги и медитации рассчитаны в том числе на новичков. Преподаватель всегда предлагает несколько уровней сложности для каждого упражнения, чтобы вы чувствовали себя комфортно."
-            },
-            {
-              q: "Что необходимо взять с собой на практику?",
-              a: "Мы рекомендуем взять удобную спортивную одежду, которая не стесняет движений. Занятия проходят босиком или в носках. Коврики, пледы и все необходимые пропсы (блоки, ремни) в нашей студии предоставляются бесплатно."
-            },
-            {
-              q: "Как часто нужно заниматься, чтобы увидеть результат?",
-              a: "Для стабильного улучшения гибкости, укрепления мышц и снижения уровня стресса мы рекомендуем посещать занятия 2–3 раза в неделю. Однако даже одна практика в неделю принесет ощутимую пользу вашему телу и разуму."
-            }
-          ].map((faq, index) => {
-            // Создаем локальное состояние для отслеживания открытого вопроса
-            const [isActive, setIsActive] = useState(false);
-
-            return (
-              <div key={index} className={`accordion-item ${isActive ? 'active' : ''}`}>
-                <div className="accordion-header" onClick={() => setIsActive(!isActive)}>
-                  <span className="accordion-question">{faq.q}</span>
-                  <span className="accordion-icon">▼</span>
-                </div>
-                <div className="accordion-collapse">
-                  <div className="accordion-body">
-                    <p>{faq.a}</p>
-                  </div>
+                <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                  <h3 style={{ color: '#2c3e35', fontSize: '18px', margin: '0 0 10px 0', fontWeight: '600' }}>{recipe.title}</h3>
+                  <p style={{ color: '#666', fontSize: '14px', flexGrow: 1, margin: 0, lineHeight: '1.5' }}>{recipe.shortText}</p>
+                  <button type="button" onClick={() => setActiveRecipe(recipe)} style={{ background: '#4a6b5d', color: 'white', border: 'none', padding: '10px 15px', borderRadius: '20px', cursor: 'pointer', marginTop: '15px', fontWeight: '600', width: '100%' }}>
+                    Посмотреть рецепт
+                  </button>
                 </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
+
+          <button type="button" onClick={nextSlide} style={{ background: '#4a6b5d', color: 'white', border: 'none', width: '40px', height: '40px', borderRadius: '50%', cursor: 'pointer', fontWeight: 'bold' }}>
+            &gt;
+          </button>
         </div>
       </section>
-      {/* КОНЕЦ СЕКЦИИ АККОРДЕОНА */}
 
+      {/* АНИМИРОВАННАЯ СЕКЦИЯ FAQ */}
+      <section className="faq-section scroll-animated-section" style={{ padding: '60px 20px', maxWidth: '800px', margin: '0 auto' }}>
+        <h2 style={{ textAlign: 'center', color: '#2c3e35', marginBottom: '35px', fontWeight: '700', fontSize: '32px' }}>
+          Часто задаваемые вопросы
+        </h2>
 
-      {/* МОДАЛЬНОЕ ОКНО ДЛЯ РЕЦЕПТА */}
-      {activeRecipe && (
-        <div className="modal-overlay" onClick={() => setActiveRecipe(null)}>
-          <div className="modal-content recipe-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setActiveRecipe(null)}>×</button>
-
-            <img src={activeRecipe.image} alt={activeRecipe.title} className="modal-recipe-img" />
-            <h3 className="modal-title" style={{ marginTop: '15px' }}>{activeRecipe.title}</h3>
-
-            <div className="modal-recipe-body">
-              {/* Блок Ингредиентов (рендерится, только если они прописаны как массив) */}
-              {activeRecipe.ingredients && (
-                <div className="recipe-block">
-                  <h4 className="recipe-block-title">🥑 Ингредиенты:</h4>
-                  <ul className="ingredients-list">
-                    {activeRecipe.ingredients.map((ing, i) => (
-                      <li key={i} className="ingredient-item">✨ {ing}</li>
-                    ))}
-                  </ul>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          {faqData.map((item, index) => (
+            <div key={index} style={{ background: 'white', border: '1px solid #eae6df', borderRadius: '15px', overflow: 'hidden', transition: 'all 0.2s' }}>
+              <div onClick={() => toggleFaq(index)} style={{ padding: '20px 25px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', background: activeFaqIndex === index ? '#fcfbfa' : 'white' }}>
+                <span style={{ color: '#2c3e35', fontWeight: '600', fontSize: '16px' }}>{item.q}</span>
+                <span style={{ color: '#4a6b5d', fontWeight: 'bold', fontSize: '18px' }}>{activeFaqIndex === index ? '−' : '+'}</span>
+              </div>
+              {activeFaqIndex === index && (
+                <div style={{ padding: '0 25px 20px 25px', color: '#666', fontSize: '15px', lineHeight: '1.6', background: '#fcfbfa' }}>
+                  {item.a}
                 </div>
-              )}
-
-              {/* Блок Приготовления */}
-              {activeRecipe.instructions && (
-                <div className="recipe-block" style={{ marginTop: '20px' }}>
-                  <h4 className="recipe-block-title">🥣 Способ приготовления:</h4>
-                  <p className="recipe-instructions-text">{activeRecipe.instructions}</p>
-                </div>
-              )}
-
-              {/* Старый вариант вывода на случай, если у других рецептов текст еще не разделен */}
-              {activeRecipe.fullText && (
-                <p className="modal-recipe-fulltext">{activeRecipe.fullText}</p>
               )}
             </div>
-          </div>
+          ))}
         </div>
-      )}
+      </section>
 
-      {/* Стандартное модальное окно записи */}
-      {isOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <button className="modal-close" onClick={() => setIsOpen(false)}>×</button>
-            <h3 className="modal-title">Запись на занятие</h3>
-            <form onSubmit={handleSubmit} className="modal-form">
-              <input type="text" placeholder="Ваше имя" required value={name} onChange={(e) => setName(e.target.value)} />
-              <input type="tel" placeholder="Номер телефона" required value={phone} onChange={(e) => setPhone(e.target.value)} />
-              <button type="submit" className="btn-primary">Отправить заявку</button>
-            </form>
-          </div>
+    </div> {/* КОНЕЦ СКОРЛУПКИ (.scroll-shell-content) */}
+
+    {/* МОДАЛЬНОЕ ОКНО ДЛЯ РЕЦЕПТА */}
+    {activeRecipe && (
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }} onClick={() => setActiveRecipe(null)}>
+        <div style={{ background: 'white', padding: '30px', borderRadius: '20px', maxWidth: '500px', width: '90%', maxHeight: '85vh', overflowY: 'auto' }} onClick={(e) => e.stopPropagation()}>
+          <h3 style={{ color: '#2c3e35', margin: '0 0 15px 0', textAlign: 'center', fontSize: '22px', fontWeight: '700' }}>{activeRecipe.title}</h3>
+          {activeRecipe.image && (
+            <div style={{ width: '100%', height: '240px', borderRadius: '15px', overflow: 'hidden', margin: '0 0 20px 0', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f7f5f0' }}>
+              <img src={`/${activeRecipe.image}`} alt={activeRecipe.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+            </div>
+          )}
+          {activeRecipe.ingredients && (
+            <div style={{ marginTop: '15px', textAlign: 'left' }}>
+              <h4 style={{ color: '#4a6b5d', marginBottom: '5px' }}>🥑 Ингредиенты:</h4>
+              <ul style={{ paddingLeft: '20px', margin: 0 }}>
+                {activeRecipe.ingredients.map((ing, i) => (
+                  <li key={i} style={{ color: '#555', marginBottom: '4px' }}>{ing}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {activeRecipe.instructions && (
+            <div style={{ marginTop: '20px', textAlign: 'left' }}>
+              <h4 style={{ color: '#4a6b5d', marginBottom: '5px' }}>🥣 Способ приготовления:</h4>
+              <p style={{ color: '#555', margin: 0, fontSize: '14px', lineHeight: '1.5' }}>{activeRecipe.instructions}</p>
+            </div>
+          )}
+          <button type="button" onClick={() => setActiveRecipe(null)} style={{ marginTop: '25px', background: '#4a6b5d', color: 'white', border: 'none', padding: '12px 25px', borderRadius: '20px', cursor: 'pointer', fontWeight: '600', width: '100%' }}>
+            Закрыть
+          </button>
         </div>
-      )}
-    </div>
-  )
+      </div>
+    )}
+
+    {/* МОДАЛЬНОЕ ОКНО ЗАПИСИ НА ЗАНЯТИЕ */}
+    {isOpen && (
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }} onClick={() => setIsOpen(false)}>
+        <div style={{ background: 'white', padding: '30px', borderRadius: '20px', maxWidth: '400px', width: '90%' }} onClick={(e) => e.stopPropagation()}>
+          <h3 style={{ color: '#2c3e35', marginTop: 0, marginBottom: '20px', textAlign: 'center', fontWeight: '700' }}>Запись на практику</h3>
+          <form onSubmit={handleBookingSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            <input type="text" placeholder="Ваше имя" value={name} onChange={(e) => setName(e.target.value)} required style={{ padding: '12px', border: '1px solid #eae6df', borderRadius: '10px', outline: 'none' }} />
+            <input type="text" placeholder="+7 (___) ___-__-__" value={phone} onChange={handlePhoneChange} required style={{ padding: '12px', border: '1px solid #eae6df', borderRadius: '10px', outline: 'none' }} />
+            <button type="submit" style={{ background: '#4a6b5d', color: 'white', border: 'none', padding: '12px', borderRadius: '25px', fontWeight: '600', cursor: 'pointer', marginTop: '10px' }}>
+              Подтвердить запись
+            </button>
+          </form>
+        </div>
+      </div>
+    )}
+
+  </div>
+);
 }
 
-export default Home
+export default Home;

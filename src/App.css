@@ -229,6 +229,57 @@ body {
   }
 
   .nav-item {
-    font-size: 22px; /* Увеличиваем размер текста для удобного тапа пальцем */
+    font-size: 14px;
   }
+}
+/* Группа авторизации, чтобы ссылки не переносились */
+.nav-auth-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto; /* Автоматически оттолкнет блок к правому краю, соблюдая баланс */
+  padding-right: 15px; /* Небольшой аккуратный отступ от самого края экрана */
+}
+.nav-auth-group a {
+  font-size: 12px;
+}
+
+.nav-separator {
+  color: #bbbbbb;
+  font-size: 14px;
+  user-select: none;
+}
+
+.user-profile-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 10px;
+}
+
+.user-name-display {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #2c3e35;
+  font-weight: 600;
+}
+
+.logout-btn {
+  background: none;
+  border: 1px solid #eae6df;
+  color: #666666;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 15px;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  color: #e74c3c;
+  border-color: #fadbd8;
+  background-color: #fdf2f2;
 }

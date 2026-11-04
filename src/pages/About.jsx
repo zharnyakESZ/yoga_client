@@ -1,7 +1,7 @@
 function About() {
   return (
     <div className="about-container">
-      <h2 className="about-header">О нашей студии «Гармония»</h2>
+      <h2 className="about-header">О нашей студии «Цветочная практика»</h2>
       <p className="about-description">
         Мы верим, что йога — это не просто комплекс упражнений, а путь к внутренней свободе, 
         здоровью и гармонии с окружающим миром. Наша студия создана как тихий островок спокойствия 
